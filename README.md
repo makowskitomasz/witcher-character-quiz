@@ -10,6 +10,13 @@ A structured groundwork for building an intelligent Witcher character quiz that 
 - Defined an initial graph representation strategy for downstream analysis.
 - Reviewed embedding techniques (Node2Vec, GraphSAGE, text-embedding-3-small) to guide later experiments.
 
+## Milestone 2 – Questionnaire Design Summary
+- Authored a questionnaire of 12 story-driven, multiple-choice questions spanning decision making, loyalty, moral alignment, interpersonal behavior, and risk tolerance.
+- Captured trait weights for each answer, aligning directly with Milestone 1 trait dimensions.
+- Formalized the data contract via `questionnaire/schema.py` (Pydantic) and ensured JSON validation through `QuestionnaireLoader`.
+- Built the `QuestionnaireTransformer` to map responses to normalized user feature vectors, unlocking downstream embedding pipelines.
+- Added a CLI runner (`main.py`) and Makefile commands (`make run`, `make windows_run`) to exercise the pipeline end-to-end.
+
 ## Project Structure
 This milestone focuses on the skeleton; implementation details will arrive with future milestones.
 
