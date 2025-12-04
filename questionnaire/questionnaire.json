@@ -1,0 +1,400 @@
+{
+  "questions": [
+    {
+      "id": "q1_decision_style",
+      "text": "When making decisions on contracts, what guides you the most?",
+      "options": [
+        {
+          "id": "q1_opt_a",
+          "text": "Intuition and curiosity guide me toward unusual paths.",
+          "trait_mapping": {
+            "Openness": 0.9,
+            "Adaptability": 0.7,
+            "Impulsiveness": 0.4
+          }
+        },
+        {
+          "id": "q1_opt_b",
+          "text": "I weigh facts, risks, and logistics before acting.",
+          "trait_mapping": {
+            "Conscientiousness": 0.8,
+            "Pragmatism": 0.8,
+            "EmotionalStability": 0.6
+          }
+        },
+        {
+          "id": "q1_opt_c",
+          "text": "I follow my moral compass even if it complicates the job.",
+          "trait_mapping": {
+            "Loyalty": 0.6,
+            "Empathy": 0.7,
+            "MoralFlexibility": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "q2_pressure_response",
+      "text": "How do you respond when a plan starts falling apart mid-mission?",
+      "options": [
+        {
+          "id": "q2_opt_a",
+          "text": "Stay calm, reassess, and execute a backup strategy.",
+          "trait_mapping": {
+            "EmotionalStability": 0.9,
+            "Adaptability": 0.8,
+            "Conscientiousness": 0.5
+          }
+        },
+        {
+          "id": "q2_opt_b",
+          "text": "Improvise boldly, trusting reflexes and courage.",
+          "trait_mapping": {
+            "Bravery": 0.8,
+            "Impulsiveness": 0.7,
+            "Openness": 0.6
+          }
+        },
+        {
+          "id": "q2_opt_c",
+          "text": "Rally allies and coordinate a group response.",
+          "trait_mapping": {
+            "Extraversion": 0.7,
+            "Loyalty": 0.7,
+            "Agreeableness": 0.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "q3_moral_alignment",
+      "text": "A noble asks you to cover up a crime for a large reward. What do you do?",
+      "options": [
+        {
+          "id": "q3_opt_a",
+          "text": "Refuse outright; justice matters more than coin.",
+          "trait_mapping": {
+            "Empathy": 0.8,
+            "Loyalty": 0.7,
+            "MoralFlexibility": 0.1
+          }
+        },
+        {
+          "id": "q3_opt_b",
+          "text": "Accept if it serves a bigger pragmatic goal.",
+          "trait_mapping": {
+            "Pragmatism": 0.9,
+            "MoralFlexibility": 0.7,
+            "Ambition": 0.5
+          }
+        },
+        {
+          "id": "q3_opt_c",
+          "text": "Negotiate terms that benefit both commoners and yourself.",
+          "trait_mapping": {
+            "Agreeableness": 0.6,
+            "Ambition": 0.6,
+            "Empathy": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "q4_loyalty",
+      "text": "An ally betrays you but later asks for help against a greater evil. How do you react?",
+      "options": [
+        {
+          "id": "q4_opt_a",
+          "text": "Help them; the mission outweighs personal grudges.",
+          "trait_mapping": {
+            "Loyalty": 0.7,
+            "Pragmatism": 0.6,
+            "EmotionalStability": 0.5
+          }
+        },
+        {
+          "id": "q4_opt_b",
+          "text": "Refuse; betrayal severs trust permanently.",
+          "trait_mapping": {
+            "Independence": 0.7,
+            "Agreeableness": 0.3,
+            "MoralFlexibility": 0.2
+          }
+        },
+        {
+          "id": "q4_opt_c",
+          "text": "Offer help but impose strict conditions and oversight.",
+          "trait_mapping": {
+            "Conscientiousness": 0.7,
+            "Ambition": 0.4,
+            "Loyalty": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "q5_interpersonal",
+      "text": "At a crowded tavern, how do you spend your evening?",
+      "options": [
+        {
+          "id": "q5_opt_a",
+          "text": "Sing, tell stories, and make new friends.",
+          "trait_mapping": {
+            "Extraversion": 0.9,
+            "Agreeableness": 0.7,
+            "Empathy": 0.5
+          }
+        },
+        {
+          "id": "q5_opt_b",
+          "text": "Observe quietly, collecting information.",
+          "trait_mapping": {
+            "Independence": 0.8,
+            "Openness": 0.5,
+            "Conscientiousness": 0.4
+          }
+        },
+        {
+          "id": "q5_opt_c",
+          "text": "Meet only trusted allies to plan the next move.",
+          "trait_mapping": {
+            "Loyalty": 0.6,
+            "Conscientiousness": 0.6,
+            "Extraversion": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "q6_risk",
+      "text": "How do you assess risk when scouting a monster nest?",
+      "options": [
+        {
+          "id": "q6_opt_a",
+          "text": "Charge in before the trail runs cold.",
+          "trait_mapping": {
+            "Bravery": 0.9,
+            "Impulsiveness": 0.8,
+            "Adaptability": 0.5
+          }
+        },
+        {
+          "id": "q6_opt_b",
+          "text": "Meticulously plan with potions and research.",
+          "trait_mapping": {
+            "Conscientiousness": 0.9,
+            "Pragmatism": 0.7,
+            "Openness": 0.4
+          }
+        },
+        {
+          "id": "q6_opt_c",
+          "text": "Bring companions to balance risk and support.",
+          "trait_mapping": {
+            "Loyalty": 0.7,
+            "Extraversion": 0.5,
+            "Empathy": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "q7_conflict_resolution",
+      "text": "When mediating disputes between locals, you usually…",
+      "options": [
+        {
+          "id": "q7_opt_a",
+          "text": "Seek a compromise everyone can accept.",
+          "trait_mapping": {
+            "Agreeableness": 0.9,
+            "Empathy": 0.7,
+            "Openness": 0.5
+          }
+        },
+        {
+          "id": "q7_opt_b",
+          "text": "Impose an efficient, practical solution.",
+          "trait_mapping": {
+            "Pragmatism": 0.8,
+            "Conscientiousness": 0.7,
+            "EmotionalStability": 0.5
+          }
+        },
+        {
+          "id": "q7_opt_c",
+          "text": "Walk away; their conflicts are not your concern.",
+          "trait_mapping": {
+            "Independence": 0.9,
+            "Empathy": 0.2,
+            "Agreeableness": 0.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "q8_adaptability",
+      "text": "You must suddenly change regions for a contract. How do you adapt?",
+      "options": [
+        {
+          "id": "q8_opt_a",
+          "text": "Embrace the change and learn local customs fast.",
+          "trait_mapping": {
+            "Adaptability": 0.9,
+            "Openness": 0.8,
+            "Extraversion": 0.4
+          }
+        },
+        {
+          "id": "q8_opt_b",
+          "text": "Stick to proven routines; change is risky.",
+          "trait_mapping": {
+            "Conscientiousness": 0.7,
+            "EmotionalStability": 0.6,
+            "Independence": 0.5
+          }
+        },
+        {
+          "id": "q8_opt_c",
+          "text": "Negotiate for more time and resources before moving.",
+          "trait_mapping": {
+            "Pragmatism": 0.7,
+            "Ambition": 0.5,
+            "Loyalty": 0.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "q9_power_drive",
+      "text": "What motivates you to hone your skills?",
+      "options": [
+        {
+          "id": "q9_opt_a",
+          "text": "The pursuit of mastery and recognition.",
+          "trait_mapping": {
+            "Ambition": 0.9,
+            "Openness": 0.6,
+            "Independence": 0.5
+          }
+        },
+        {
+          "id": "q9_opt_b",
+          "text": "Protecting people who rely on me.",
+          "trait_mapping": {
+            "Loyalty": 0.8,
+            "Empathy": 0.7,
+            "Bravery": 0.6
+          }
+        },
+        {
+          "id": "q9_opt_c",
+          "text": "Survival—staying one step ahead of threats.",
+          "trait_mapping": {
+            "Adaptability": 0.7,
+            "Pragmatism": 0.7,
+            "EmotionalStability": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "q10_secrecy",
+      "text": "How open are you about your past with new allies?",
+      "options": [
+        {
+          "id": "q10_opt_a",
+          "text": "I share stories freely; it builds trust.",
+          "trait_mapping": {
+            "Extraversion": 0.8,
+            "Agreeableness": 0.6,
+            "Empathy": 0.5
+          }
+        },
+        {
+          "id": "q10_opt_b",
+          "text": "I reveal only what is necessary for the mission.",
+          "trait_mapping": {
+            "Independence": 0.8,
+            "Pragmatism": 0.6,
+            "Conscientiousness": 0.5
+          }
+        },
+        {
+          "id": "q10_opt_c",
+          "text": "I keep secrets unless loyalty has been proven over time.",
+          "trait_mapping": {
+            "Loyalty": 0.7,
+            "EmotionalStability": 0.5,
+            "MoralFlexibility": 0.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "q11_magic_use",
+      "text": "How do you view the use of powerful magic or dangerous tools?",
+      "options": [
+        {
+          "id": "q11_opt_a",
+          "text": "Experiment boldly; innovation wins battles.",
+          "trait_mapping": {
+            "Openness": 0.9,
+            "Ambition": 0.7,
+            "Impulsiveness": 0.5
+          }
+        },
+        {
+          "id": "q11_opt_b",
+          "text": "Use them cautiously, respecting long-term consequences.",
+          "trait_mapping": {
+            "Conscientiousness": 0.7,
+            "Pragmatism": 0.6,
+            "EmotionalStability": 0.6
+          }
+        },
+        {
+          "id": "q11_opt_c",
+          "text": "Avoid them unless absolutely necessary for allies' safety.",
+          "trait_mapping": {
+            "Empathy": 0.7,
+            "Loyalty": 0.6,
+            "Bravery": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "q12_trust",
+      "text": "How quickly do you trust new companions on the road?",
+      "options": [
+        {
+          "id": "q12_opt_a",
+          "text": "Quick to connect; teamwork forms fast.",
+          "trait_mapping": {
+            "Agreeableness": 0.8,
+            "Extraversion": 0.7,
+            "Empathy": 0.6
+          }
+        },
+        {
+          "id": "q12_opt_b",
+          "text": "Trust is earned slowly through shared hardship.",
+          "trait_mapping": {
+            "Loyalty": 0.8,
+            "Conscientiousness": 0.6,
+            "Independence": 0.5
+          }
+        },
+        {
+          "id": "q12_opt_c",
+          "text": "I prefer to work alone whenever possible.",
+          "trait_mapping": {
+            "Independence": 0.9,
+            "Adaptability": 0.5,
+            "Agreeableness": 0.2
+          }
+        }
+      ]
+    }
+  ]
+}
