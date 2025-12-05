@@ -1,0 +1,267 @@
+{
+  "@context": {
+    "wc": "http://example.org/witcher-quiz#",
+    "name": "http://schema.org/name",
+    "type": "@type",
+    "Character": "wc:Character",
+    "Faction": "wc:Faction",
+    "TraitDimension": "wc:TraitDimension",
+    "hasFaction": { "@id": "wc:hasFaction", "@type": "@id" },
+    "traitValues": "wc:traitValues",
+    "relation": "wc:relation"
+  },
+  "@graph": [
+    {
+      "id": "wc:Openness",
+      "@type": "TraitDimension",
+      "name": "Openness to Experience",
+      "description": "Curiosity, creativity, willingness to explore new ideas and adapt to new circumstances."
+    },
+    {
+      "id": "wc:Conscientiousness",
+      "@type": "TraitDimension",
+      "name": "Conscientiousness / Discipline",
+      "description": "Self-discipline, reliability, orderliness, sense of duty and diligence."
+    },
+    {
+      "id": "wc:Extraversion",
+      "@type": "TraitDimension",
+      "name": "Extraversion / Sociability",
+      "description": "Tendency to seek social interaction, energy, outgoingness, talkativeness."
+    },
+    {
+      "id": "wc:Agreeableness",
+      "@type": "TraitDimension",
+      "name": "Agreeableness / Cooperation",
+      "description": "Empathy, kindness, cooperativeness, inclination toward social harmony."
+    },
+    {
+      "id": "wc:EmotionalStability",
+      "@type": "TraitDimension",
+      "name": "Emotional Stability / Resilience",
+      "description": "Calmness, emotional resilience, ability to handle stress and adversity with composure."
+    },
+    {
+      "id": "wc:Pragmatism",
+      "@type": "TraitDimension",
+      "name": "Pragmatism vs Idealism",
+      "description": "Tendency to make practical, realistic decisions vs ideal-driven or value-driven ones."
+    },
+    {
+      "id": "wc:Bravery",
+      "@type": "TraitDimension",
+      "name": "Bravery / Courage under Pressure",
+      "description": "Willingness to face danger, risks, threats and adversity; courage under stress."
+    },
+    {
+      "id": "wc:MoralFlexibility",
+      "@type": "TraitDimension",
+      "name": "Moral Flexibility / Ambiguity Tolerance",
+      "description": "Willingness to make morally grey decisions; tolerance for ethical ambiguity under pressure."
+    },
+    {
+      "id": "wc:Loyalty",
+      "@type": "TraitDimension",
+      "name": "Loyalty / Sense of Duty",
+      "description": "Commitment to allies, promises, causes; sense of responsibility and fidelity."
+    },
+    {
+      "id": "wc:Empathy",
+      "@type": "TraitDimension",
+      "name": "Empathy / Compassion",
+      "description": "Concern for others’ wellbeing, emotional sensitivity, caring nature."
+    },
+    {
+      "id": "wc:Independence",
+      "@type": "TraitDimension",
+      "name": "Independence / Solitude Preference",
+      "description": "Inclination toward solitude, self-reliance, autonomy vs reliance on social bonds."
+    },
+    {
+      "id": "wc:Ambition",
+      "@type": "TraitDimension",
+      "name": "Ambition / Drive for Mastery or Power",
+      "description": "Desire for growth, mastery of skills or magic, influence, achievement, status."
+    },
+    {
+      "id": "wc:Adaptability",
+      "@type": "TraitDimension",
+      "name": "Adaptability / Resilience to Change",
+      "description": "Ability to cope with change, hardship, unexpected events, and bounce back."
+    },
+    {
+      "id": "wc:Impulsiveness",
+      "@type": "TraitDimension",
+      "name": "Impulsiveness vs Thoughtfulness",
+      "description": "Tendency to act on impulse / gut feelings vs careful deliberation and reflection before acting."
+    },
+    {
+      "id": "wc:Faction_Witchers",
+      "@type": "Faction",
+      "name": "Witchers"
+    },
+    {
+      "id": "wc:Faction_Mages",
+      "@type": "Faction",
+      "name": "Mages / Sorcerers"
+    },
+    {
+      "id": "wc:Faction_Commoners",
+      "@type": "Faction",
+      "name": "Commoners / Travellers / Artists"
+    },
+    {
+      "id": "wc:Faction_Nobility",
+      "@type": "Faction",
+      "name": "Nobility / Royal Blood"
+    },
+    {
+      "id": "wc:Geralt_of_Rivia",
+      "@type": "Character",
+      "name": "Geralt of Rivia",
+      "hasFaction": ["wc:Faction_Witchers"],
+      "traitValues": {
+        "wc:Openness": 0.5,
+        "wc:Conscientiousness": 0.8,
+        "wc:Extraversion": 0.3,
+        "wc:Agreeableness": 0.4,
+        "wc:EmotionalStability": 0.9,
+        "wc:Pragmatism": 0.9,
+        "wc:Bravery": 0.95,
+        "wc:MoralFlexibility": 0.7,
+        "wc:Loyalty": 0.6,
+        "wc:Empathy": 0.4,
+        "wc:Independence": 0.9,
+        "wc:Ambition": 0.5,
+        "wc:Adaptability": 0.85,
+        "wc:Impulsiveness": 0.4
+      },
+      "relation": [
+        { "type": "friend_of", "target": "wc:Dandelion" },
+        { "type": "destiny_of", "target": "wc:Ciri" },
+        { "type": "lover_of", "target": "wc:Yennefer_of_Vengerberg" }
+      ]
+    },
+    {
+      "id": "wc:Ciri",
+      "@type": "Character",
+      "name": "Cirilla Fiona Elen Riannon (Ciri)",
+      "hasFaction": ["wc:Faction_Nobility"],
+      "traitValues": {
+        "wc:Openness": 0.7,
+        "wc:Conscientiousness": 0.6,
+        "wc:Extraversion": 0.5,
+        "wc:Agreeableness": 0.6,
+        "wc:EmotionalStability": 0.7,
+        "wc:Pragmatism": 0.6,
+        "wc:Bravery": 0.8,
+        "wc:MoralFlexibility": 0.5,
+        "wc:Loyalty": 0.8,
+        "wc:Empathy": 0.7,
+        "wc:Independence": 0.6,
+        "wc:Ambition": 0.7,
+        "wc:Adaptability": 0.9,
+        "wc:Impulsiveness": 0.6
+      },
+      "relation": [
+        { "type": "ward_of", "target": "wc:Yennefer_of_Vengerberg" },
+        { "type": "adoptive_child_of", "target": "wc:Geralt_of_Rivia" }
+      ]
+    },
+    {
+      "id": "wc:Yennefer_of_Vengerberg",
+      "@type": "Character",
+      "name": "Yennefer of Vengerberg",
+      "hasFaction": ["wc:Faction_Mages"],
+      "traitValues": {
+        "wc:Openness": 0.8,
+        "wc:Conscientiousness": 0.7,
+        "wc:Extraversion": 0.5,
+        "wc:Agreeableness": 0.5,
+        "wc:EmotionalStability": 0.6,
+        "wc:Pragmatism": 0.7,
+        "wc:Bravery": 0.75,
+        "wc:MoralFlexibility": 0.8,
+        "wc:Loyalty": 0.6,
+        "wc:Empathy": 0.5,
+        "wc:Independence": 0.7,
+        "wc:Ambition": 0.9,
+        "wc:Adaptability": 0.8,
+        "wc:Impulsiveness": 0.5
+      },
+      "relation": [
+        { "type": "lover_of", "target": "wc:Geralt_of_Rivia" }
+      ]
+    },
+    {
+      "id": "wc:Triss_Merigold",
+      "@type": "Character",
+      "name": "Triss Merigold",
+      "hasFaction": ["wc:Faction_Mages"],
+      "traitValues": {
+        "wc:Openness": 0.7,
+        "wc:Conscientiousness": 0.6,
+        "wc:Extraversion": 0.6,
+        "wc:Agreeableness": 0.7,
+        "wc:EmotionalStability": 0.7,
+        "wc:Pragmatism": 0.6,
+        "wc:Bravery": 0.7,
+        "wc:MoralFlexibility": 0.4,
+        "wc:Loyalty": 0.8,
+        "wc:Empathy": 0.8,
+        "wc:Independence": 0.5,
+        "wc:Ambition": 0.6,
+        "wc:Adaptability": 0.8,
+        "wc:Impulsiveness": 0.5
+      }
+    },
+    {
+      "id": "wc:Dandelion",
+      "@type": "Character",
+      "name": "Dandelion",
+      "hasFaction": ["wc:Faction_Commoners"],
+      "traitValues": {
+        "wc:Openness": 0.9,
+        "wc:Conscientiousness": 0.4,
+        "wc:Extraversion": 0.9,
+        "wc:Agreeableness": 0.7,
+        "wc:EmotionalStability": 0.6,
+        "wc:Pragmatism": 0.5,
+        "wc:Bravery": 0.5,
+        "wc:MoralFlexibility": 0.6,
+        "wc:Loyalty": 0.5,
+        "wc:Empathy": 0.7,
+        "wc:Independence": 0.4,
+        "wc:Ambition": 0.4,
+        "wc:Adaptability": 0.6,
+        "wc:Impulsiveness": 0.7
+      },
+      "relation": [
+        { "type": "friend_of", "target": "wc:Geralt_of_Rivia" }
+      ]
+    },
+    {
+      "id": "wc:Vesemir",
+      "@type": "Character",
+      "name": "Vesemir",
+      "hasFaction": ["wc:Faction_Witchers"],
+      "traitValues": {
+        "wc:Openness": 0.4,
+        "wc:Conscientiousness": 0.9,
+        "wc:Extraversion": 0.4,
+        "wc:Agreeableness": 0.6,
+        "wc:EmotionalStability": 0.9,
+        "wc:Pragmatism": 0.85,
+        "wc:Bravery": 0.85,
+        "wc:MoralFlexibility": 0.6,
+        "wc:Loyalty": 0.9,
+        "wc:Empathy": 0.6,
+        "wc:Independence": 0.8,
+        "wc:Ambition": 0.4,
+        "wc:Adaptability": 0.8,
+        "wc:Impulsiveness": 0.3
+      }
+    }
+
+  ]
+}
