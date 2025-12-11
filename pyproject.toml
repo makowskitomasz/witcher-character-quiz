@@ -15,6 +15,7 @@ dependencies = [
   "scikit-learn",
   "gensim",
   "matplotlib",
+  "umap-learn",
 ]
 
 [project.optional-dependencies]
