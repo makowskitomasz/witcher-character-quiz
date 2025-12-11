@@ -17,11 +17,78 @@ A structured groundwork for building an intelligent Witcher character quiz that 
 - Built the `QuestionnaireTransformer` to map responses to normalized user feature vectors, unlocking downstream embedding pipelines.
 - Added a CLI runner (`main.py`) and Makefile commands (`make run`, `make windows_run`) to exercise the pipeline end-to-end.
 
-## Project Structure
-This milestone focuses on the skeleton; implementation details will arrive with future milestones.
+## Milestone 3 – Embedding Algorithm Selection and Training Summary
+- **Graph Construction**: Implemented `GraphBuilder` to construct NetworkX graph from JSON-LD data with nodes for Characters, Factions, and TraitDimensions, and edges for faction membership, character relations, and high-trait connections (threshold 0.7).
+- **Node2Vec Training**: Implemented `Node2VecTrainer` using gensim Word2Vec to generate graph embeddings via random walks (32D embeddings, 10-step walks, 80 walks per node).
+- **Hybrid Embeddings**: Created `HybridEmbeddings` system that concatenates trait vectors (14D) with graph embeddings (32D) to produce unified character representations (46D total).
+- **Character Matching**: Implemented cosine similarity matching between user trait vectors and character hybrid embeddings in `main.py`.
+- **Quality Analysis**: Built `EmbeddingQualityAnalyzer` using UMAP for dimensionality reduction visualization and K-means clustering analysis to verify separation and clustering quality.
+- **Export Pipeline**: Created `scripts/export_embeddings.py` to train and export embeddings, generate visualizations, and save results to JSON.
+- **Dependencies**: Added `umap-learn` for visualization and analysis.
 
-## How to Extend the Questionnaire
+## Project Structure
+- `domain/`: Domain models and graph construction (`graph_builder.py`, `characters.py`, `factions.py`, `traits.py`, `relations.py`)
+- `embeddings/`: Embedding training and analysis (`node2vec_trainer.py`, `hybrid_embeddings.py`, `quality_analysis.py`, `graph_visualizer.py`)
+- `questionnaire/`: Questionnaire schema and transformation (`schema.py`, `transformer.py`, `loader.py`)
+- `scripts/`: CLI tools (`build_graph.py`, `export_embeddings.py`, `visualize_graph.py`)
+- `utils/`: Utilities (`io.py` for JSON-LD loading, `config.py`)
+- `data/`: Data files (`raw/witcher.jsonld`, `embeddings/` for exported results, `graph.json`)
+
+## Usage
+
+### Running the Quiz
+```bash
+make run
+# or
+uv run python main.py
+```
+
+### Building the Graph
+```bash
+make build_graph
+# or
+uv run python -m scripts.build_graph
+```
+
+### Training and Exporting Embeddings
+```bash
+make export_embeddings
+# or
+uv run python -m scripts.export_embeddings
+```
+
+This will:
+1. Build the knowledge graph from JSON-LD data
+2. Train Node2Vec embeddings
+3. Create hybrid embeddings (trait + graph)
+4. Perform quality analysis (UMAP visualization, clustering)
+5. Export embeddings to `data/embeddings/`
+
+### Visualizing the Graph
+```bash
+make visualize_graph
+# or
+uv run python -m scripts.visualize_graph
+```
+
+This creates a multi-panel visualization (`data/graph_visualization.png`) with:
+- **Full Graph**: Complete knowledge graph with all nodes (Characters, Factions, Traits) color-coded by type
+- **Character Subgraph**: Focused view showing only characters, their relations, and faction memberships
+- **Trait Heatmap**: Character × Trait matrix with hierarchical clustering to show trait similarity patterns
+
+## How to Extend
+
+### Extending the Questionnaire
 - Update `questionnaire/questionnaire.json` by appending new questions that follow the existing schema (unique IDs, text, options with `trait_mapping` weights). Keep trait names aligned with the canonical list in `questionnaire/transformer.py`.
 - Run `QuestionnaireLoader.from_default_path().load()` to validate the JSON through the Pydantic models in `questionnaire/schema.py`. Validation errors point directly to malformed entries.
 - If you introduce new trait dimensions, expand `TRAIT_ORDER` inside `questionnaire/transformer.py` to keep feature vectors aligned and reproducible across experiments.
-- Extend transformation behavior by subclassing or modifying `QuestionnaireTransformer`—for example to weight certain questions higher or to output additional metadata alongside the normalized vector.
+
+### Adding Characters
+- Add character entries to `data/raw/witcher.jsonld` following the existing schema with `traitValues` and `relation` fields.
+- Run `make build_graph` to rebuild the graph.
+- Run `make export_embeddings` to retrain embeddings with the new character.
+
+### Adjusting Embedding Parameters
+- Modify `Node2VecTrainer` parameters in `scripts/export_embeddings.py` (dimensions, walk_length, num_walks).
+- Adjust trait threshold in `GraphBuilder` (default 0.7) to control `hasHighTrait` edge creation.
+- Tune UMAP parameters in `EmbeddingQualityAnalyzer` for different visualization results.
