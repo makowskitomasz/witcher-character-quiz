@@ -10,7 +10,8 @@ from embeddings.hybrid_embeddings import HybridEmbeddings
 from embeddings.node2vec_trainer import Node2VecTrainer
 from questionnaire.loader import QuestionnaireLoader
 from questionnaire.schema import Option, Question
-from questionnaire.transformer import QuestionnaireTransformer, TRAIT_ORDER
+from questionnaire.transformer import TRAIT_ORDER, QuestionnaireTransformer
+from questionnaire.user_embedding import UserEmbeddingBuilder
 
 
 class QuestionnaireApp:
@@ -18,38 +19,45 @@ class QuestionnaireApp:
 
     def __init__(self, jsonld_path: Path | str | None = None) -> None:
         """Initialize the questionnaire app.
-        
+
         Args:
             jsonld_path: Path to JSON-LD file (defaults to data/raw/witcher.jsonld)
         """
         self.questions = QuestionnaireLoader.from_default_path().load()
         self.transformer = QuestionnaireTransformer(self.questions)
-        
+
         # Set up embeddings
         if jsonld_path is None:
             project_root = Path(__file__).parent
             jsonld_path = project_root / "data" / "raw" / "witcher.jsonld"
-        
+
         print("Loading character data and training embeddings...")
         self.builder = GraphBuilder(jsonld_path, trait_threshold=0.7)
         self.graph = self.builder.build()
-        
+
         print("  Training graph embeddings...")
         self.trainer = Node2VecTrainer(self.graph, dimensions=32)
         self.graph_embeddings = self.trainer.train()
-        
+
+        self.user_embedding_builder = UserEmbeddingBuilder(
+            self.graph_embeddings, trait_order=TRAIT_ORDER
+        )
+
         print("  Building hybrid embeddings...")
         self.hybrid = HybridEmbeddings(self.graph, self.graph_embeddings)
         self.hybrid.build_character_embeddings()
-        
+
         print("Ready!\n")
 
     def run(self) -> None:
         """Run the questionnaire and match to characters."""
         answers = self._collect_answers()
         feature_vector = self.transformer.transform(answers)
-        matches = self.hybrid.match_user_to_character(feature_vector, method="cosine")
-        
+        user_embedding = self.user_embedding_builder.build_from_feature_vector(
+            feature_vector
+        )
+        matches = self.hybrid.match_user_to_character(user_embedding, method="cosine")
+
         self._print_vector(feature_vector)
         self._print_matches(matches)
 
@@ -101,7 +109,7 @@ class QuestionnaireApp:
             bar = "█" * bar_length + "░" * (30 - bar_length)
             print(f"\n  #{rank}: {char_name}")
             print(f"  Match: {percentage:5.1f}% [{bar}]")
-            
+
             # Show faction
             factions = []
             for neighbor in self.graph.neighbors(char_id):

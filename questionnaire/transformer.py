@@ -30,14 +30,22 @@ TRAIT_ORDER = [
 class QuestionnaireTransformer:
     """Converts questionnaire answers to normalized trait feature vectors."""
 
-    def __init__(self, questions: Sequence[Question], trait_order: Sequence[str] | None = None) -> None:
+    def __init__(
+        self, questions: Sequence[Question], trait_order: Sequence[str] | None = None
+    ) -> None:
         if not questions:
             raise ValueError("QuestionnaireTransformer requires at least one question.")
         self.questions = list(questions)
-        self.question_index: Dict[str, Question] = {question.id: question for question in self.questions}
+        self.question_index: Dict[str, Question] = {
+            question.id: question for question in self.questions
+        }
         if len(self.question_index) != len(self.questions):
-            raise ValueError("Duplicate question identifiers detected in transformer initialization.")
-        self.trait_order = list(trait_order) if trait_order is not None else list(TRAIT_ORDER)
+            raise ValueError(
+                "Duplicate question identifiers detected in transformer initialization."
+            )
+        self.trait_order = (
+            list(trait_order) if trait_order is not None else list(TRAIT_ORDER)
+        )
         self.trait_index = {trait: idx for idx, trait in enumerate(self.trait_order)}
 
     def transform(self, answers: Mapping[str, str]) -> np.ndarray:
@@ -73,5 +81,7 @@ class QuestionnaireTransformer:
 
     def _get_trait_index(self, trait: str) -> int:
         if trait not in self.trait_index:
-            raise ValueError(f"Trait '{trait}' is not part of the configured trait_order.")
+            raise ValueError(
+                f"Trait '{trait}' is not part of the configured trait_order."
+            )
         return self.trait_index[trait]

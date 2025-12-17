@@ -2,8 +2,8 @@
 
 from .characters import Character
 from .factions import Faction
-from .traits import Trait
 from .graph_builder import GraphBuilder
+from .traits import Trait
 
 __all__ = [
     "Character",

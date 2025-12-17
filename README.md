@@ -26,6 +26,11 @@ A structured groundwork for building an intelligent Witcher character quiz that 
 - **Export Pipeline**: Created `scripts/export_embeddings.py` to train and export embeddings, generate visualizations, and save results to JSON.
 - **Dependencies**: Added `umap-learn` for visualization and analysis.
 
+## Milestone 4 – User Embedding Construction Summary
+- Introduced `UserEmbeddingBuilder`, which aggregates graph trait embeddings using questionnaire-derived trait weights and outputs L2-normalized hybrid user vectors aligned with character embeddings.
+- Updated `main.py` to build user embeddings directly in the questionnaire flow so character matching now happens in the shared latent space (trait + graph portions).
+- Added `scripts/test_user_embeddings.py` showcasing multiple synthetic answer profiles, verifying dimensionality, normalization, and producing cosine-based top character matches for each profile.
+
 ## Project Structure
 - `domain/`: Domain models and graph construction (`graph_builder.py`, `characters.py`, `factions.py`, `traits.py`, `relations.py`)
 - `embeddings/`: Embedding training and analysis (`node2vec_trainer.py`, `hybrid_embeddings.py`, `quality_analysis.py`, `graph_visualizer.py`)

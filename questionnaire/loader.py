@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Iterable, List
 
-from .schema import Questionnaire, Question
+from .schema import Question, Questionnaire
 
 
 class QuestionnaireLoader:
@@ -27,6 +27,10 @@ class QuestionnaireLoader:
             return json.load(fp)
 
     @classmethod
-    def from_default_path(cls, base_dir: Path | str | None = None) -> "QuestionnaireLoader":
-        base = Path(base_dir) if base_dir is not None else Path(__file__).resolve().parent
+    def from_default_path(
+        cls, base_dir: Path | str | None = None
+    ) -> "QuestionnaireLoader":
+        base = (
+            Path(base_dir) if base_dir is not None else Path(__file__).resolve().parent
+        )
         return cls(base / "questionnaire.json")
