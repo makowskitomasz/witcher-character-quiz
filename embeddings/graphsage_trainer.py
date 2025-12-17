@@ -16,7 +16,7 @@ class EmbeddingTrainer:
 
 class GraphSAGETrainer(EmbeddingTrainer):
     """Stub for GraphSAGE specific training logic.
-    
+
     GraphSAGE requires PyTorch Geometric or DGL and is overkill for
     the current small graph. This is kept as a placeholder for future
     expansion when the character roster grows.

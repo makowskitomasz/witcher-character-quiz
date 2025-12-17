@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Dict, List
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 
 TraitMapping = Dict[str, float]
 
@@ -16,7 +16,7 @@ class Option(BaseModel):
     text: str = Field(..., min_length=1)
     trait_mapping: TraitMapping = Field(..., alias="trait_mapping")
 
-    @validator("trait_mapping")
+    @field_validator("trait_mapping")
     def validate_trait_mapping(cls, mapping: TraitMapping) -> TraitMapping:
         if not mapping:
             raise ValueError("trait_mapping must contain at least one trait weight.")
@@ -35,9 +35,9 @@ class Question(BaseModel):
 
     id: str = Field(..., min_length=1)
     text: str = Field(..., min_length=1)
-    options: List[Option] = Field(..., min_items=2)
+    options: List[Option] = Field(..., min_length=2)
 
-    @validator("options")
+    @field_validator("options")
     def validate_unique_option_ids(cls, options: List[Option]) -> List[Option]:
         seen = set()
         for option in options:
@@ -50,15 +50,17 @@ class Question(BaseModel):
         for option in self.options:
             if option.id == option_id:
                 return option
-        raise ValueError(f"Option id '{option_id}' does not exist for question '{self.id}'.")
+        raise ValueError(
+            f"Option id '{option_id}' does not exist for question '{self.id}'."
+        )
 
 
 class Questionnaire(BaseModel):
     """Root questionnaire container."""
 
-    questions: List[Question] = Field(..., min_items=1)
+    questions: List[Question] = Field(..., min_length=1)
 
-    @validator("questions")
+    @field_validator("questions")
     def validate_unique_question_ids(cls, questions: List[Question]) -> List[Question]:
         seen = set()
         for question in questions:

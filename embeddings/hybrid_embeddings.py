@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from typing import Dict
 
-import numpy as np
 import networkx as nx
+import numpy as np
 
 from questionnaire.transformer import TRAIT_ORDER
 
@@ -21,7 +21,7 @@ class HybridEmbeddings:
         text_encoder=None,
     ) -> None:
         """Initialize hybrid embedding system.
-        
+
         Args:
             graph: NetworkX graph with character nodes
             graph_embeddings: Dictionary mapping node ID to graph embedding vector
@@ -36,103 +36,97 @@ class HybridEmbeddings:
 
     def build_character_embeddings(self) -> Dict[str, np.ndarray]:
         """Build hybrid embeddings for all characters.
-        
+
         Returns:
             Dictionary mapping character ID to hybrid embedding vector
         """
         character_nodes = [
-            n for n, attrs in self.graph.nodes(data=True) if attrs.get("type") == "Character"
+            n
+            for n, attrs in self.graph.nodes(data=True)
+            if attrs.get("type") == "Character"
         ]
-        
+
         self.character_embeddings = {}
-        
+
         for char_id in character_nodes:
             # Get trait vector (14D)
             node_data = self.graph.nodes[char_id]
             trait_vector = node_data.get("trait_vector", np.zeros(len(TRAIT_ORDER)))
-            
+
             # Get graph embedding (32D or whatever dimension was used)
             graph_emb = self.graph_embeddings.get(char_id, np.zeros(32))
-            
+
             # Optionally get text embedding
             if self.use_text and self.text_encoder:
                 char_name = node_data.get("name", "")
                 text_emb = self.text_encoder.encode(char_name)
             else:
                 text_emb = np.array([])
-            
+
             # Concatenate: [trait_vector | graph_embedding | text_embedding]
             hybrid = np.concatenate([trait_vector, graph_emb, text_emb])
             self.character_embeddings[char_id] = hybrid
-        
+
         return self.character_embeddings
 
     def get_character_embedding(self, character_id: str) -> np.ndarray:
         """Get hybrid embedding for a specific character.
-        
+
         Args:
             character_id: Character node ID
-            
+
         Returns:
             Hybrid embedding vector
         """
         if self.character_embeddings is None:
             self.build_character_embeddings()
-        
+
         if character_id not in self.character_embeddings:
             raise ValueError(f"Character {character_id} not found in embeddings.")
-        
+
         return self.character_embeddings[character_id]
 
     def match_user_to_character(
-        self, user_trait_vector: np.ndarray, method: str = "cosine"
+        self, user_embedding: np.ndarray, method: str = "cosine"
     ) -> list[tuple[str, float]]:
-        """Match user trait vector to characters using similarity.
-        
+        """Match a hybrid user embedding to character embeddings.
+
         Args:
-            user_trait_vector: User's trait vector (14D)
+            user_embedding: User vector aligned with hybrid character embeddings
             method: Similarity method ("cosine" or "euclidean")
-            
+
         Returns:
             List of (character_id, similarity_score) tuples, sorted by score descending
         """
         if self.character_embeddings is None:
             self.build_character_embeddings()
-        
-        # For user matching, we only use the trait vector portion
-        # Pad user vector to match hybrid embedding dimension
-        trait_dim = len(TRAIT_ORDER)
-        graph_dim = len(next(iter(self.graph_embeddings.values())))
-        text_dim = 1536 if self.use_text else 0
-        
-        # Create user embedding: [user_trait_vector | zeros for graph | zeros for text]
-        user_hybrid = np.concatenate([
-            user_trait_vector,
-            np.zeros(graph_dim),
-            np.zeros(text_dim),
-        ])
-        
+        assert self.character_embeddings is not None
+
+        user_vector = np.asarray(user_embedding, dtype=float)
+        char_dim = len(next(iter(self.character_embeddings.values())))
+        if user_vector.shape[0] != char_dim:
+            raise ValueError(
+                "User embedding dimension does not match character embeddings. "
+                f"Expected {char_dim}, received {user_vector.shape[0]}."
+            )
+
         scores = []
+        user_norm = np.linalg.norm(user_vector)
         for char_id, char_emb in self.character_embeddings.items():
             if method == "cosine":
-                # Cosine similarity
-                dot_product = np.dot(user_hybrid, char_emb)
-                norm_user = np.linalg.norm(user_hybrid)
-                norm_char = np.linalg.norm(char_emb)
-                if norm_user > 0 and norm_char > 0:
-                    similarity = dot_product / (norm_user * norm_char)
-                else:
+                char_norm = np.linalg.norm(char_emb)
+                if user_norm == 0 or char_norm == 0:
                     similarity = 0.0
+                else:
+                    similarity = float(
+                        np.dot(user_vector, char_emb) / (user_norm * char_norm)
+                    )
             elif method == "euclidean":
-                # Euclidean distance (convert to similarity: 1 / (1 + distance))
-                distance = np.linalg.norm(user_hybrid - char_emb)
-                similarity = 1.0 / (1.0 + distance)
+                distance = np.linalg.norm(user_vector - char_emb)
+                similarity = float(1.0 / (1.0 + distance))
             else:
                 raise ValueError(f"Unknown similarity method: {method}")
-            
-            scores.append((char_id, float(similarity)))
-        
-        # Sort by similarity descending
+            scores.append((char_id, similarity))
+
         scores.sort(key=lambda x: x[1], reverse=True)
         return scores
-

@@ -52,21 +52,21 @@ def character_trait_vector(
     character: Dict[str, Any], trait_order: List[str], trait_prefix: str = "wc:"
 ) -> np.ndarray:
     """Extract trait vector for a character as numpy array.
-    
+
     Args:
         character: Character dictionary from JSON-LD
         trait_order: Ordered list of trait names (without prefix)
         trait_prefix: Prefix used in JSON-LD (default: "wc:")
-    
+
     Returns:
         numpy array of shape (len(trait_order),) with trait values
     """
     trait_values = character.get("traitValues", {})
     vector = np.zeros(len(trait_order), dtype=float)
-    
+
     for idx, trait_name in enumerate(trait_order):
         trait_key = f"{trait_prefix}{trait_name}"
         if trait_key in trait_values:
             vector[idx] = float(trait_values[trait_key])
-    
+
     return vector
