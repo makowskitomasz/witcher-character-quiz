@@ -3,7 +3,8 @@ name = "witcher-character-quiz"
 version = "0.1.0"
 description = "Domain modeling and embeddings groundwork for a Witcher character quiz."
 authors = [
-  { name = "Tomasz Makowski" }
+  { name = "Tomasz Makowski" },
+  { name = "Adrian Jaśkowiec" },
 ]
 readme = "README.md"
 requires-python = ">=3.11"
