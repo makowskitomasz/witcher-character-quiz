@@ -99,5 +99,4 @@ class UserEmbeddingBuilder:
         norm = np.linalg.norm(combined)
         if norm > 0:
             combined = combined / norm
-        print(combined)
         return combined

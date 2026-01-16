@@ -12,6 +12,7 @@ from questionnaire.loader import QuestionnaireLoader
 from questionnaire.schema import Option, Question
 from questionnaire.transformer import TRAIT_ORDER, QuestionnaireTransformer
 from questionnaire.user_embedding import UserEmbeddingBuilder
+from questionnaire.result_explainer import ResultExplainer
 
 
 class QuestionnaireApp:
@@ -47,6 +48,8 @@ class QuestionnaireApp:
         self.hybrid = HybridEmbeddings(self.graph, self.graph_embeddings)
         self.hybrid.build_character_embeddings()
 
+        self.explainer = ResultExplainer(trait_order=TRAIT_ORDER)
+
         print("Ready!\n")
 
     def run(self) -> None:
@@ -58,8 +61,9 @@ class QuestionnaireApp:
         )
         matches = self.hybrid.match_user_to_character(user_embedding, method="cosine")
 
+        self._print_embedding(user_embedding)
         self._print_vector(feature_vector)
-        self._print_matches(matches)
+        self._print_matches(matches, user_vector=feature_vector)
 
     def _collect_answers(self) -> Dict[str, str]:
         """Collect answers from user."""
@@ -86,6 +90,13 @@ class QuestionnaireApp:
                 pass
             print("Invalid selection. Please enter a number.")
 
+    def _print_embedding(self, embedding: np.ndarray) -> None:
+        """Print the raw hybrid embedding vector."""
+        print("\n" + "=" * 60)
+        print("Hybrid User Embedding (Traits + Graph):")
+        print("=" * 60)
+        print(embedding)
+
     def _print_vector(self, vector) -> None:
         """Print the trait vector."""
         print("\n" + "=" * 60)
@@ -96,11 +107,16 @@ class QuestionnaireApp:
             bar = "█" * bar_length + "░" * (30 - bar_length)
             print(f"  {trait:>20}: {value:.3f} [{bar}]")
 
-    def _print_matches(self, matches: list[tuple[str, float]]) -> None:
+    def _print_matches(
+        self, matches: list[tuple[str, float]], user_vector: np.ndarray | None = None
+    ) -> None:
         """Print character matches."""
         print("\n" + "=" * 60)
         print("Character Matches:")
         print("=" * 60)
+
+        top_explanation = None
+
         for rank, (char_id, similarity) in enumerate(matches, start=1):
             node_data = self.graph.nodes[char_id]
             char_name = node_data.get("name", char_id)
@@ -110,6 +126,14 @@ class QuestionnaireApp:
             print(f"\n  #{rank}: {char_name}")
             print(f"  Match: {percentage:5.1f}% [{bar}]")
 
+            # Prepare explanation for the top match
+            if rank == 1 and user_vector is not None:
+                char_trait_vector = node_data.get("trait_vector")
+                if char_trait_vector is not None:
+                    top_explanation = self.explainer.explain(
+                        user_vector, char_trait_vector, char_name
+                    )
+
             # Show faction
             factions = []
             for neighbor in self.graph.neighbors(char_id):
@@ -118,6 +142,14 @@ class QuestionnaireApp:
                     factions.append(neighbor_data.get("name", neighbor))
             if factions:
                 print(f"  Faction: {', '.join(factions)}")
+
+        # Print the detailed explanation at the end
+        if top_explanation:
+            print("\n" + "-" * 60)
+            print(f"Result Summary:")
+            print("-" * 60)
+            print(f"\n  {top_explanation}")
+            print("-" * 60 + "\n")
 
 
 if __name__ == "__main__":
